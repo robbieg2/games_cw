@@ -1,5 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <filesystem>
 
 class Game
 {
@@ -14,7 +16,10 @@ class Game
 		
 	private:
 		sf::RenderWindow mWindow;
-		sf::CircleShape mPlayer;
+
+		sf::Sprite mPlayer;
+
+		sf::Texture mPlayerTexture;
 };
 
 int main()

@@ -5,9 +5,10 @@ Game::Game()
 :mWindow(sf::VideoMode(1920, 1080), "On The Run")
 , mPlayer()
 {
-	mPlayer.setRadius(40.f);
-	mPlayer.setPosition(100.f, 100.f);
-	mPlayer.setFillColor(sf::Color::Cyan);
+	mPlayerTexture.loadFromFile("res/player/Player.png");
+	mPlayer.setTexture(mPlayerTexture);
+	mPlayer.setScale(sf::Vector2f(10, 10));
+	mPlayer.setOrigin(sf::Vector2f(8, 8));
 }
 void Game::run()
 {
