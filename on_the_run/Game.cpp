@@ -1,4 +1,7 @@
-Game::game()
+#include "Game.h"
+#include <SFML/Graphics.hpp>
+
+Game::Game()
 :mWindow(sf::VideoMode(1920, 1080), "On The Run")
 , mPlayer()
 {
