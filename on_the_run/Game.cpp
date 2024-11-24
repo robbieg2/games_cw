@@ -6,8 +6,9 @@ Game::Game()
 :mWindow(sf::VideoMode(1920, 1080), "On The Run")
 , mPlayer()
 {
-	mPlayerTexture.loadFromFile("bin/Debug/res/player/Player.png");
+	mPlayerTexture.loadFromFile("bin/Debug/res/player/PlayerMovingSpriteSheet.png");
 	mPlayer.setTexture(mPlayerTexture);
+
 	mPlayer.setScale(sf::Vector2f(10, 10));
 	mPlayer.setOrigin(sf::Vector2f(8, 8));
 }
