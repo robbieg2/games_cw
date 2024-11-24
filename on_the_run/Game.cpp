@@ -34,14 +34,13 @@ void Game::run()
 
 	while (mWindow.isOpen())
 	{
-		sf::Time deltaTime = clock.restart();
 		processEvents();
 		timeSinceLastUpdate += clock.restart();
 		while (timeSinceLastUpdate > TimePerFrame)
 		{
 			timeSinceLastUpdate -= TimePerFrame;
 			processEvents();
-			update(deltaTime);
+			update(TimePerFrame);
 		}
 		render();
 	}
@@ -70,20 +69,15 @@ void Game::processEvents()
 void Game::update(sf::Time deltaTime)
 {
 	sf::Vector2f movement(0.f, 0.f);
-	float movementSpeed = 200.f;
+	movementSpeed = 100.f;
 	if (pIsMovingUp)
 		movement.y -= 1.f;
 	if (pIsMovingDown)
-		movement.y += 1.f;
+		movement.y += 1.f;           
 	if (pIsMovingLeft)
 		movement.x -= 1.f;
 	if (pIsMovingRight)
 		movement.x += 1.f;
-
-	if (movement.x != 0.f || movement.y != 0.f)
-	{
-		movement = movement / std::sqrt(movement.x * movement.x + movement.y * movement.y);
-	}
 
 	mPlayer.move(movement * deltaTime.asSeconds() * movementSpeed);
 }

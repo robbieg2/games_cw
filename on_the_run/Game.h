@@ -23,14 +23,15 @@ class Game
 
 		sf::Texture mPlayerTexture;
 
-		bool pIsMovingUp;
-		bool pIsMovingDown;
-		bool pIsMovingLeft;
-		bool pIsMovingRight;
+		bool pIsMovingUp = false;
+		bool pIsMovingDown = false;
+		bool pIsMovingLeft = false;
+		bool pIsMovingRight = false;
+		float movementSpeed;
 };
 
 int main()
 {
-	Game game;
-	game.run();
+	Game Game;
+	Game.run();
 }
