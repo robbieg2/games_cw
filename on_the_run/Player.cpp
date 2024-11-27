@@ -3,15 +3,13 @@
 #include <SFML/Graphics.hpp>
 
 Player::Player()
-	:	movement(sf::Vector2f(0.f, 0.f)),
-		maxSpeedForward(400.f),
+	:	maxSpeedForward(400.f),
 		maxSpeedBackwards(100.f),
 		movementSpeed(0.f),
 		pIsMovingUp(false),
 		pIsMovingDown(false),
 		pIsMovingLeft(false),
 		pIsMovingRight(false),
-		isMoving(false),
 		currentFrame(0),
 		frameCounter(0)
 {
@@ -128,7 +126,6 @@ void Player::updateMovement(sf::Time deltaTime)
 
 void Player::move(sf::Time deltaTime)
 {
-	isMoving = true;
 	// Finds the direction the player is facing
 	float rotation = mPlayer.getRotation();
 

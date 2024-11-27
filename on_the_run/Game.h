@@ -15,7 +15,7 @@ class Game
 		
 	private:
 		sf::RenderWindow mWindow;
-		sf::Time TimePerFrame = sf::seconds(1.f / 60.f);
+		sf::Time TimePerFrame;
 
 		sf::Texture mBackgroundTexture;
 		sf::Sprite mBackgroundSprite;
