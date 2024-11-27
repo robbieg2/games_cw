@@ -1,14 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Player.h"
 
 class Game
 {
 	public:
 				Game();
 		void	run();
-
-
-		void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 			
 	private:
 		void	processEvents();
@@ -17,17 +15,8 @@ class Game
 		
 	private:
 		sf::RenderWindow mWindow;
+		Player mPlayer;
 		sf::Time TimePerFrame = sf::seconds(1.f / 60.f);
-
-		sf::Sprite mPlayer;
-
-		sf::Texture mPlayerTexture;
-
-		bool pIsMovingUp = false;
-		bool pIsMovingDown = false;
-		bool pIsMovingLeft = false;
-		bool pIsMovingRight = false;
-		float movementSpeed;
 };
 
 int main()
