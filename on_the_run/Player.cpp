@@ -3,11 +3,15 @@
 #include <SFML/Graphics.hpp>
 
 Player::Player()
-	:	movementSpeed(100.f),
+	:	movement(sf::Vector2f(0.f, 0.f)),
+		maxSpeedForward(400.f),
+		maxSpeedBackwards(100.f),
+		movementSpeed(0.f),
 		pIsMovingUp(false),
 		pIsMovingDown(false),
 		pIsMovingLeft(false),
 		pIsMovingRight(false),
+		isMoving(false),
 		currentFrame(0),
 		frameCounter(0)
 {
@@ -48,49 +52,99 @@ void Player::updateAnimationMovement()
 	frameCounter++;
 }
 
+void Player::updateAccelleration(sf::Time deltaTime)
+{
+	float maxSpeed = 0.f;
+
+	if (pIsMovingUp)
+		maxSpeed = maxSpeedForward;
+	if (pIsMovingDown)
+		maxSpeed = maxSpeedBackwards;
+
+	float speedIncrease = maxSpeed / 2.0f;
+	float Acceleration = speedIncrease * deltaTime.asSeconds();
+
+	movementSpeed += Acceleration;
+	if (movementSpeed > maxSpeed)
+	{
+		movementSpeed = maxSpeed;
+	}
+}
+
+void Player::updateDeceleration(sf::Time deltaTime)
+{
+	float deceleration = 50.f;
+	if (movementSpeed > 0)
+	{
+		movementSpeed -= deceleration * deltaTime.asSeconds();
+		if (movementSpeed < 0)
+			movementSpeed = 0;
+	}
+}
+
 void Player::updateMovement(sf::Time deltaTime)
 {
-	// Sets default movement to nothing
-	sf::Vector2f movement(0.f, 0.f);
-	// Sets movement speed for when a key is pressed
-	movementSpeed = 100.f;
-
 	// Moves the player in the a direction depending on what/if a key is pressed
-	if (pIsMovingUp) {
+	if (pIsMovingUp) 
+	{
 		movement.x = 0.f;
 		movement.y = -1.f;
 		updateAnimationMovement();
+		updateAccelleration(deltaTime);
 	}
-	if (pIsMovingDown) {
+	if (pIsMovingDown) 
+	{
 		movement.x = 0.f;
 		movement.y = 1.f;
 		updateAnimationMovement();
+		updateAccelleration(deltaTime);
 	}
 	// Rotates the sprite to turn in the corrosponding directions
-	if (pIsMovingLeft && (pIsMovingUp || pIsMovingDown)) {
-		mPlayer.rotate(-90.f * deltaTime.asSeconds());
-	}
-	if (pIsMovingRight && (pIsMovingUp || pIsMovingDown)) {
-		mPlayer.rotate(90.f * deltaTime.asSeconds());
-	}
-
-	if (movement.x != 0.f || movement.y != 0.f)
+	if (pIsMovingLeft && movementSpeed > 0)
 	{
-		// Finds the direction the player is facing
-		float rotation = mPlayer.getRotation();
+		if (movement.y < 0)
+			mPlayer.rotate(-90.f * deltaTime.asSeconds());
+		if (movement.y > 0)
+			mPlayer.rotate(90.f * deltaTime.asSeconds());
+	}
+	if (pIsMovingRight && movementSpeed > 0) 
+	{
+		if (movement.y < 0)
+			mPlayer.rotate(90.f * deltaTime.asSeconds());
+		if (movement.y > 0)
+			mPlayer.rotate(-90.f * deltaTime.asSeconds());
+	}
 
-		// Converts the angle to a radian
-		float angleInRadians = rotation * (3.14159f / 180.f);
+	if (!pIsMovingUp && !pIsMovingDown)
+	{
+		updateDeceleration(deltaTime);
+	}
 
-		float cosRotation = cos(angleInRadians);
-		float sinRotation = sin(angleInRadians);
+	if (movementSpeed > 0.f)
+	{
+		move(deltaTime);
+	}
+}
 
-		// Calculates the movement direction of the player
-		sf::Vector2f rotatedMovement;
-		rotatedMovement.x = movement.x * cosRotation - movement.y * sinRotation;
-		rotatedMovement.y = movement.x * sinRotation + movement.y * cosRotation;
+void Player::move(sf::Time deltaTime)
+{
+	isMoving = true;
+	// Finds the direction the player is facing
+	float rotation = mPlayer.getRotation();
 
-		//calculates movement trajectory
+	// Converts the angle to a radian
+	float angleInRadians = rotation * (3.14159f / 180.f);
+
+	float cosRotation = cos(angleInRadians);
+	float sinRotation = sin(angleInRadians);
+
+	// Calculates the movement direction of the player
+	rotatedMovement.x = movement.x * cosRotation - movement.y * sinRotation;
+	rotatedMovement.y = movement.x * sinRotation + movement.y * cosRotation;
+
+	//calculates movement trajectory
+	if (movementSpeed > 0)
+	{
 		mPlayer.move(rotatedMovement * deltaTime.asSeconds() * movementSpeed);
 	}
 }
