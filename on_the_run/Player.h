@@ -10,6 +10,8 @@ public:
 
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 
+	void updateAnimationMovement();
+
 	void updateMovement(sf::Time deltaTime);
 
 	sf::Sprite& getSprite() { return mPlayer; }
@@ -25,4 +27,7 @@ private:
 	bool pIsMovingDown;
 	bool pIsMovingLeft;
 	bool pIsMovingRight;
+
+	int currentFrame;
+	int frameCounter;
 };

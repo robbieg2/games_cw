@@ -7,6 +7,12 @@ Game::Game()
 :mWindow(sf::VideoMode(1920, 1080), "On The Run")// Sets screen size and title
 , TimePerFrame(sf::seconds(1.f/ 60.f))
 {
+	mWindow.setFramerateLimit(60);
+	if (!mBackgroundTexture.loadFromFile("bin/Debug/res/Background/tempBackground.png"))
+	{
+		std::cerr << "Error loading background texture" << std::endl;
+	}
+	mBackgroundSprite.setTexture(mBackgroundTexture);
 }
 
 void Game::run()
@@ -61,6 +67,7 @@ void Game::update(sf::Time deltaTime)
 void Game::render()
 {
 	mWindow.clear();
+	mWindow.draw(mBackgroundSprite);
 	mWindow.draw(mPlayer.getSprite());
 	mWindow.display();
 }
