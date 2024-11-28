@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Player.h"
+#include "Police.h"
 
 class Game
 {
@@ -22,6 +23,7 @@ class Game
 
 
 		Player mPlayer;
+		Police mPolice;
 };
 
 int main()

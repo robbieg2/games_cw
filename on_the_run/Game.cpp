@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Player.h"
+#include "Police.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
@@ -61,6 +62,7 @@ void Game::processEvents()
 void Game::update(sf::Time deltaTime)
 {
 	mPlayer.updateMovement(deltaTime);
+	mPolice.followPlayer(mPlayer, deltaTime.asSeconds());
 }
 
 // Renders the window
@@ -69,5 +71,6 @@ void Game::render()
 	mWindow.clear();
 	mWindow.draw(mBackgroundSprite);
 	mWindow.draw(mPlayer.getSprite());
+	mWindow.draw(mPolice.getSprite());
 	mWindow.display();
 }
