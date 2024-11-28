@@ -35,7 +35,6 @@ private:
 	bool pIsMovingDown;
 	bool pIsMovingLeft;
 	bool pIsMovingRight;
-	bool isMoving;
 
 	int currentFrame;
 	int frameCounter;
