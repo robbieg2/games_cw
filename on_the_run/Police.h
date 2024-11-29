@@ -19,7 +19,6 @@ public:
 
 private:
 	sf::Sprite mPolice;
-	sf::Texture mPoliceTexture;
 
 	float aiSpeed;
 	float aiTurnSpeed;

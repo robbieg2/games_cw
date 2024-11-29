@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+static sf::Texture mPoliceTexture;
+
 Police::Police()
 	: currentFrame(0),
 	frameCounter(0),
@@ -62,12 +64,15 @@ void Police::draw(sf::RenderWindow& window) const
 
 void Police::updateAnimationMovement()
 {
+	int frameWidth = 30;
+	int frameHeight = 30;
+	int numFrames = 2;
 
-	mPolice.setTextureRect(sf::IntRect(30 * currentFrame, 0, 30, 30));
+	mPolice.setTextureRect(sf::IntRect(frameWidth * currentFrame, 0, frameWidth, frameHeight));
 
 	if (frameCounter == 15)
 	{
-		currentFrame = (currentFrame + 1) % 2;
+		currentFrame = (currentFrame + 1) % numFrames;
 		frameCounter = 0;
 	}
 	frameCounter++;
