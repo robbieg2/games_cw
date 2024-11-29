@@ -6,7 +6,7 @@
 Police::Police()
 	:	currentFrame(0),
 		frameCounter(0),
-		aiSpeed(400.f),
+		aiSpeed(300.f),
 		aiTurnSpeed(90.f),
 		mRotation(0.f),
 		degreseToRadian(3.14159265f / 180.f)
@@ -67,6 +67,7 @@ void Police::followPlayer(const Player& player, float deltaTime)
 		sf::Vector2f velocity(std::cos(radianRotation) * aiSpeed,
 							  std::sin(radianRotation) * aiSpeed);
 		mPolice.move(velocity * deltaTime);
+		updateAnimationMovement();
 	}
 	mPolice.setRotation(mRotation);
 }
