@@ -22,6 +22,8 @@ public:
 
 	sf::Sprite& getSprite() { return mPlayer; }
 
+	sf::Vector2f getPosition() const { return mPlayer.getPosition(); }
+
 private:
 	sf::Sprite mPlayer;
 
