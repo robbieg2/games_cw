@@ -5,8 +5,8 @@
 #include <iostream>
 
 Game::Game()
-:mWindow(sf::VideoMode(1920, 1080), "On The Run")// Sets screen size and title
-, TimePerFrame(sf::seconds(1.f/ 60.f))
+	:mWindow(sf::VideoMode(1920, 1080), "On The Run")// Sets screen size and title
+	, TimePerFrame(sf::seconds(1.f / 60.f))
 {
 	mWindow.setFramerateLimit(60);
 	if (!mBackgroundTexture.loadFromFile("bin/Debug/res/Background/tempBackground.png"))
@@ -21,6 +21,10 @@ void Game::run()
 {
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
+
+	spawnPoliceCar(policeCars, sf::Vector2f(1000.f, 1000.f), 0.f);
+	spawnPoliceCar(policeCars, sf::Vector2f(400.f, 1000.f), 0.f);
+	spawnPoliceCar(policeCars, sf::Vector2f(1000.f, 400.f), 0.f);
 
 
 	while (mWindow.isOpen())
@@ -62,7 +66,11 @@ void Game::processEvents()
 void Game::update(sf::Time deltaTime)
 {
 	mPlayer.updateMovement(deltaTime);
-	mPolice.followPlayer(mPlayer, deltaTime.asSeconds());
+
+	for (auto& police : policeCars)
+	{
+		police.followPlayer(mPlayer, deltaTime.asSeconds());
+	}
 }
 
 // Renders the window
@@ -71,6 +79,10 @@ void Game::render()
 	mWindow.clear();
 	mWindow.draw(mBackgroundSprite);
 	mWindow.draw(mPlayer.getSprite());
-	mWindow.draw(mPolice.getSprite());
+
+	for (const auto& police : policeCars)
+	{
+		police.draw(mWindow);
+	}
 	mWindow.display();
 }

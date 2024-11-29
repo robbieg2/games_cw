@@ -21,6 +21,7 @@ class Game
 		sf::Texture mBackgroundTexture;
 		sf::Sprite mBackgroundSprite;
 
+		std::vector<Police> policeCars;
 
 		Player mPlayer;
 		Police mPolice;
