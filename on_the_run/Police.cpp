@@ -2,32 +2,77 @@
 #include "Player.h"
 #include <cmath>
 #include <SFML/Graphics.hpp>
+#include <iostream>
+
+static sf::Texture mPoliceTexture;
 
 Police::Police()
-	:	currentFrame(0),
-		frameCounter(0),
-		aiSpeed(400.f),
-		aiTurnSpeed(90.f),
-		mRotation(0.f),
-		degreseToRadian(3.14159265f / 180.f)
+	: currentFrame(0),
+	frameCounter(0),
+	aiSpeed(300.f),
+	aiTurnSpeed(90.f),
+	mRotation(0.f),
+	degreseToRadian(3.14159265f / 180.f)
 {
-	mPoliceTexture.loadFromFile("bin/Debug/res/police/PoliceMovingSpriteSheet.png");// Location of sprite
+	if (!mPoliceTexture.loadFromFile("bin/Debug/res/police/PoliceMovingSpriteSheet.png"))
+	{
+		std::cerr << "Error loading police texture" << std::endl;
+	}
+	else
+	{
+		mPolice.setTexture(mPoliceTexture);
+	}// Location of sprite
 	// Setting police sprite position and size
-	mPolice.setTexture(mPoliceTexture);
 	mPolice.setTextureRect(sf::IntRect(0, 0, 30, 30));// Takes a portion of the sprite sheet
 	mPolice.setScale(sf::Vector2f(10, 10));
 	mPolice.setOrigin(sf::Vector2f(15, 8));
 	mPolice.setPosition(1000.f, 1000.f);
 }
 
+Police::Police(sf::Vector2f startPosition, float startRotation = 0.f)
+	:	currentFrame(0),
+		frameCounter(0),
+		aiSpeed(300.f),
+		aiTurnSpeed(90.f),
+		mRotation(startRotation),
+		degreseToRadian(3.14159265f / 180.f)
+{
+	if (!mPoliceTexture.loadFromFile("bin/Debug/res/police/PoliceMovingSpriteSheet.png"))
+	{
+		std::cerr << "Error loading police texture" << std::endl;
+	}
+	else
+	{
+		mPolice.setTexture(mPoliceTexture);
+	}// Location of sprite
+	// Setting police sprite position and size
+	mPolice.setTextureRect(sf::IntRect(0, 0, 30, 30));// Takes a portion of the sprite sheet
+	mPolice.setScale(sf::Vector2f(10, 10));
+	mPolice.setOrigin(sf::Vector2f(15, 8));
+	mPolice.setPosition(startPosition);
+}
+
+void spawnPoliceCar(std::vector<Police>& policeCars, sf::Vector2f position, float rotation = 0.f)
+{
+	policeCars.emplace_back(position, rotation);
+}
+
+void Police::draw(sf::RenderWindow& window) const
+{
+	window.draw(mPolice);
+}
+
 void Police::updateAnimationMovement()
 {
+	int frameWidth = 30;
+	int frameHeight = 30;
+	int numFrames = 2;
 
-	mPolice.setTextureRect(sf::IntRect(30 * currentFrame, 0, 30, 30));
+	mPolice.setTextureRect(sf::IntRect(frameWidth * currentFrame, 0, frameWidth, frameHeight));
 
 	if (frameCounter == 15)
 	{
-		currentFrame = (currentFrame + 1) % 2;
+		currentFrame = (currentFrame + 1) % numFrames;
 		frameCounter = 0;
 	}
 	frameCounter++;
@@ -67,6 +112,7 @@ void Police::followPlayer(const Player& player, float deltaTime)
 		sf::Vector2f velocity(std::cos(radianRotation) * aiSpeed,
 							  std::sin(radianRotation) * aiSpeed);
 		mPolice.move(velocity * deltaTime);
+		updateAnimationMovement();
 	}
 	mPolice.setRotation(mRotation);
 }
